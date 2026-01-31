@@ -1,0 +1,800 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище PechyorskayaPromotionModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Fine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShareConditionsId" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Sum" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Reason" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Share">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="ClientId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StartDate" Type="date" Nullable="false" />
+          <Property Name="EndDate" Type="date" Nullable="false" />
+          <Property Name="QuantityPromoters" Type="int" Nullable="false" />
+          <Property Name="ManegerId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="HourlyPayUser" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShareConditions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShareId" Type="int" Nullable="false" />
+          <Property Name="PromoterId" Type="int" Nullable="false" />
+          <Property Name="StatusId" Type="int" Nullable="false" />
+          <Property Name="WorkingHourse" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShareStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShareType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SupervisorReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ShareId" Type="int" Nullable="false" />
+          <Property Name="CheckDate" Type="date" Nullable="false" />
+          <Property Name="Comments" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RoleId" Type="int" />
+          <Property Name="PassportData" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="UserShare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="ShareId" Type="int" Nullable="false" />
+          <Property Name="PromoterShift" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Fine_ShareConditions">
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="1" />
+          <End Role="Fine" Type="Self.Fine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareConditions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fine">
+              <PropertyRef Name="ShareConditionsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_ShareStatus">
+          <End Role="ShareStatus" Type="Self.ShareStatus" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_ShareType">
+          <End Role="ShareType" Type="Self.ShareType" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="ManegerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="PromoterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupervisorReport_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="SupervisorReport" Type="Self.SupervisorReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupervisorReport">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupervisorReport_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SupervisorReport" Type="Self.SupervisorReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupervisorReport">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role1">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserShare_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="UserShare" Type="Self.UserShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserShare">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserShare_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserShare" Type="Self.UserShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserShare">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище PechyorskayaPromotionModelContainer">
+          <EntitySet Name="Fine" EntityType="Self.Fine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Share" EntityType="Self.Share" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShareConditions" EntityType="Self.ShareConditions" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShareStatus" EntityType="Self.ShareStatus" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShareType" EntityType="Self.ShareType" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SupervisorReport" EntityType="Self.SupervisorReport" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserShare" EntityType="Self.UserShare" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Fine_ShareConditions" Association="Self.FK_Fine_ShareConditions">
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+            <End Role="Fine" EntitySet="Fine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_ShareStatus" Association="Self.FK_Share_ShareStatus">
+            <End Role="ShareStatus" EntitySet="ShareStatus" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_ShareType" Association="Self.FK_Share_ShareType">
+            <End Role="ShareType" EntitySet="ShareType" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User" Association="Self.FK_Share_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User1" Association="Self.FK_Share_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_Share" Association="Self.FK_ShareConditions_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_Status" Association="Self.FK_ShareConditions_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_User" Association="Self.FK_ShareConditions_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupervisorReport_Share" Association="Self.FK_SupervisorReport_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="SupervisorReport" EntitySet="SupervisorReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupervisorReport_User1" Association="Self.FK_SupervisorReport_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="SupervisorReport" EntitySet="SupervisorReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role1" Association="Self.FK_User_Role1">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserShare_Share" Association="Self.FK_UserShare_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="UserShare" EntitySet="UserShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserShare_User" Association="Self.FK_UserShare_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserShare" EntitySet="UserShare" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PechyorskayaPromotionModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Fine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShareConditionsId" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Sum" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Reason" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ShareConditions" Relationship="Self.FK_Fine_ShareConditions" FromRole="Fine" ToRole="ShareConditions" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role1" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Share">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="ClientId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="QuantityPromoters" Type="Int32" Nullable="false" />
+          <Property Name="ManegerId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="HourlyPayUser" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="ShareStatus" Relationship="Self.FK_Share_ShareStatus" FromRole="Share" ToRole="ShareStatus" />
+          <NavigationProperty Name="ShareType" Relationship="Self.FK_Share_ShareType" FromRole="Share" ToRole="ShareType" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Share_User" FromRole="Share" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Share_User1" FromRole="Share" ToRole="User" />
+          <NavigationProperty Name="ShareConditions" Relationship="Self.FK_ShareConditions_Share" FromRole="Share" ToRole="ShareConditions" />
+          <NavigationProperty Name="SupervisorReport" Relationship="Self.FK_SupervisorReport_Share" FromRole="Share" ToRole="SupervisorReport" />
+          <NavigationProperty Name="UserShare" Relationship="Self.FK_UserShare_Share" FromRole="Share" ToRole="UserShare" />
+        </EntityType>
+        <EntityType Name="ShareConditions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShareId" Type="Int32" Nullable="false" />
+          <Property Name="PromoterId" Type="Int32" Nullable="false" />
+          <Property Name="StatusId" Type="Int32" Nullable="false" />
+          <Property Name="WorkingHourse" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Fine" Relationship="Self.FK_Fine_ShareConditions" FromRole="ShareConditions" ToRole="Fine" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_ShareConditions_Share" FromRole="ShareConditions" ToRole="Share" />
+          <NavigationProperty Name="Status" Relationship="Self.FK_ShareConditions_Status" FromRole="ShareConditions" ToRole="Status" />
+          <NavigationProperty Name="User" Relationship="Self.FK_ShareConditions_User" FromRole="ShareConditions" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ShareStatus">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_Share_ShareStatus" FromRole="ShareStatus" ToRole="Share" />
+        </EntityType>
+        <EntityType Name="ShareType">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_Share_ShareType" FromRole="ShareType" ToRole="Share" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ShareConditions" Relationship="Self.FK_ShareConditions_Status" FromRole="Status" ToRole="ShareConditions" />
+        </EntityType>
+        <EntityType Name="SupervisorReport">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ShareId" Type="Int32" Nullable="false" />
+          <Property Name="CheckDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Comments" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_SupervisorReport_Share" FromRole="SupervisorReport" ToRole="Share" />
+          <NavigationProperty Name="User" Relationship="Self.FK_SupervisorReport_User1" FromRole="SupervisorReport" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RoleId" Type="Int32" />
+          <Property Name="PassportData" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role1" FromRole="User" ToRole="Role" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_Share_User" FromRole="User" ToRole="Share" />
+          <NavigationProperty Name="Share1" Relationship="Self.FK_Share_User1" FromRole="User" ToRole="Share" />
+          <NavigationProperty Name="ShareConditions" Relationship="Self.FK_ShareConditions_User" FromRole="User" ToRole="ShareConditions" />
+          <NavigationProperty Name="SupervisorReport" Relationship="Self.FK_SupervisorReport_User1" FromRole="User" ToRole="SupervisorReport" />
+          <NavigationProperty Name="UserShare" Relationship="Self.FK_UserShare_User" FromRole="User" ToRole="UserShare" />
+        </EntityType>
+        <EntityType Name="UserShare">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="ShareId" Type="Int32" Nullable="false" />
+          <Property Name="PromoterShift" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Share" Relationship="Self.FK_UserShare_Share" FromRole="UserShare" ToRole="Share" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserShare_User" FromRole="UserShare" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Fine_ShareConditions">
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="1" />
+          <End Role="Fine" Type="Self.Fine" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareConditions">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Fine">
+              <PropertyRef Name="ShareConditionsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role1">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_ShareStatus">
+          <End Role="ShareStatus" Type="Self.ShareStatus" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareStatus">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_ShareType">
+          <End Role="ShareType" Type="Self.ShareType" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShareType">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="ClientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Share_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Share" Type="Self.Share" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Share">
+              <PropertyRef Name="ManegerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupervisorReport_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="SupervisorReport" Type="Self.SupervisorReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupervisorReport">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserShare_Share">
+          <End Role="Share" Type="Self.Share" Multiplicity="1" />
+          <End Role="UserShare" Type="Self.UserShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Share">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserShare">
+              <PropertyRef Name="ShareId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_Status">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="StatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShareConditions_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="ShareConditions" Type="Self.ShareConditions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ShareConditions">
+              <PropertyRef Name="PromoterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SupervisorReport_User1">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="SupervisorReport" Type="Self.SupervisorReport" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SupervisorReport">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserShare_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserShare" Type="Self.UserShare" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserShare">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PechyorskayaPromotionEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Fine" EntityType="Self.Fine" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="Share" EntityType="Self.Share" />
+          <EntitySet Name="ShareConditions" EntityType="Self.ShareConditions" />
+          <EntitySet Name="ShareStatus" EntityType="Self.ShareStatus" />
+          <EntitySet Name="ShareType" EntityType="Self.ShareType" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="SupervisorReport" EntityType="Self.SupervisorReport" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserShare" EntityType="Self.UserShare" />
+          <AssociationSet Name="FK_Fine_ShareConditions" Association="Self.FK_Fine_ShareConditions">
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+            <End Role="Fine" EntitySet="Fine" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role1" Association="Self.FK_User_Role1">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_ShareStatus" Association="Self.FK_Share_ShareStatus">
+            <End Role="ShareStatus" EntitySet="ShareStatus" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_ShareType" Association="Self.FK_Share_ShareType">
+            <End Role="ShareType" EntitySet="ShareType" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User" Association="Self.FK_Share_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Share_User1" Association="Self.FK_Share_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Share" EntitySet="Share" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_Share" Association="Self.FK_ShareConditions_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupervisorReport_Share" Association="Self.FK_SupervisorReport_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="SupervisorReport" EntitySet="SupervisorReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserShare_Share" Association="Self.FK_UserShare_Share">
+            <End Role="Share" EntitySet="Share" />
+            <End Role="UserShare" EntitySet="UserShare" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_Status" Association="Self.FK_ShareConditions_Status">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShareConditions_User" Association="Self.FK_ShareConditions_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="ShareConditions" EntitySet="ShareConditions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SupervisorReport_User1" Association="Self.FK_SupervisorReport_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="SupervisorReport" EntitySet="SupervisorReport" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserShare_User" Association="Self.FK_UserShare_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserShare" EntitySet="UserShare" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище PechyorskayaPromotionModelContainer" CdmEntityContainer="PechyorskayaPromotionEntities">
+          <EntitySetMapping Name="Fine">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.Fine">
+              <MappingFragment StoreEntitySet="Fine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShareConditionsId" ColumnName="ShareConditionsId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Sum" ColumnName="Sum" />
+                <ScalarProperty Name="Reason" ColumnName="Reason" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Share">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.Share">
+              <MappingFragment StoreEntitySet="Share">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="QuantityPromoters" ColumnName="QuantityPromoters" />
+                <ScalarProperty Name="ManegerId" ColumnName="ManegerId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="HourlyPayUser" ColumnName="HourlyPayUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShareConditions">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.ShareConditions">
+              <MappingFragment StoreEntitySet="ShareConditions">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ShareId" ColumnName="ShareId" />
+                <ScalarProperty Name="PromoterId" ColumnName="PromoterId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="WorkingHourse" ColumnName="WorkingHourse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShareStatus">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.ShareStatus">
+              <MappingFragment StoreEntitySet="ShareStatus">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShareType">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.ShareType">
+              <MappingFragment StoreEntitySet="ShareType">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SupervisorReport">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.SupervisorReport">
+              <MappingFragment StoreEntitySet="SupervisorReport">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ShareId" ColumnName="ShareId" />
+                <ScalarProperty Name="CheckDate" ColumnName="CheckDate" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="PassportData" ColumnName="PassportData" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserShare">
+            <EntityTypeMapping TypeName="PechyorskayaPromotionModel.UserShare">
+              <MappingFragment StoreEntitySet="UserShare">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ShareId" ColumnName="ShareId" />
+                <ScalarProperty Name="PromoterShift" ColumnName="PromoterShift" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

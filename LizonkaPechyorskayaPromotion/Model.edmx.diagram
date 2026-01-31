@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ceaa29f141d74bc9870866ee5e1bc0e6" Name="Diagram1">
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.Fine" Width="1.5" PointX="9.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.Role" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.Share" Width="1.5" PointX="5.25" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.ShareConditions" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.ShareStatus" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.ShareType" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.Status" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.SupervisorReport" Width="1.5" PointX="10.5" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.User" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="PechyorskayaPromotionModel.UserShare" Width="1.5" PointX="10.5" PointY="1.625" IsExpanded="true" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_Fine_ShareConditions" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_User_Role1" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_Share_ShareStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_Share_ShareType" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_Share_User" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_Share_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_ShareConditions_Share" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_SupervisorReport_Share" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_UserShare_Share" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_ShareConditions_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_ShareConditions_User" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_SupervisorReport_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="PechyorskayaPromotionModel.FK_UserShare_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
