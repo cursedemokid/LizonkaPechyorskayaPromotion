@@ -28,6 +28,8 @@ namespace LizonkaPechyorskayaPromotion
             InitializeComponent();
 
             UsernameTbl.Text = App.currentUser.FullName ?? "";
+
+            MainFrame.Navigate(new OrdersPage());
         }
 
         private void OrdersBtn_Click(object sender, RoutedEventArgs e)

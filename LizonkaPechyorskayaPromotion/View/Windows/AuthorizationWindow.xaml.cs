@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace LizonkaPechyorskayaPromotion.View.Windows
 {
@@ -27,15 +17,25 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
 
         private void EnterBtn_Click(object sender, RoutedEventArgs e)
         {
-            var user = _users.FirstOrDefault(u => u.Login == LoginTb.Text
+            var user = _users
+                .FirstOrDefault(u => u.Login == LoginTb.Text
             && u.Password == PasswordPb.Password);
             if (user != null)
             {
                 App.currentUser = user;
                 MessageBox.Show($"Добро пожаловать, {user.FullName}");
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                Close();
+
+                if (user.RoleId == 1)
+                {
+                    MainWindow mainWindow = new MainWindow();
+                    mainWindow.Show();
+                }
+                else if (user.RoleId == 3)
+                {
+                    PromotionWindow promotionWindow = new PromotionWindow();
+                    promotionWindow.Show();
+                }
+                    Close();
             }
             else
             {
