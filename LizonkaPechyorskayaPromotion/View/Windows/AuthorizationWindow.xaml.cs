@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ProjectSecurity;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
@@ -9,7 +10,7 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
     /// </summary>
     public partial class AuthorizationWindow : Window
     {
-        List<User> _users = App.context.User.ToList();
+
         public AuthorizationWindow()
         {
             InitializeComponent();
@@ -17,10 +18,8 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
 
         private void EnterBtn_Click(object sender, RoutedEventArgs e)
         {
-            var user = _users
-                .FirstOrDefault(u => u.Login == LoginTb.Text
-            && u.Password == PasswordPb.Password);
-            if (user != null)
+            var user = App.context.User.FirstOrDefault(u => u.Login == LoginTb.Text);
+            if (user != null && PasswordSecurity.Verify(PasswordPb.Password, user.Password))
             {
                 App.currentUser = user;
                 MessageBox.Show($"Добро пожаловать, {user.FullName}");
