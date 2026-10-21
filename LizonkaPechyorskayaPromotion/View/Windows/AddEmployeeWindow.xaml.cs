@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProjectSecurity;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -29,7 +30,7 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
             {
                 FullNameTb.Text = _currentUser.FullName;
                 LoginTb.Text = _currentUser.Login;
-                PasswordTb.Text = _currentUser.Password;
+                PasswordTb.Text = ""; // Empty means keep the existing hash.
                 PassportDataTb.Text = _currentUser.PassportData;
                 RoleCmb.SelectedValue = _currentUser.RoleId;
             }
@@ -40,7 +41,7 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
             // Валидация
             if (string.IsNullOrWhiteSpace(FullNameTb.Text) ||
                 string.IsNullOrWhiteSpace(LoginTb.Text) ||
-                string.IsNullOrWhiteSpace(PasswordTb.Text) ||
+                (_currentUser == null && string.IsNullOrWhiteSpace(PasswordTb.Text)) ||
                 RoleCmb.SelectedItem == null)
             {
                 MessageBox.Show("Заполните все обязательные поля", "Ошибка",
@@ -56,7 +57,7 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
                     {
                         FullName = FullNameTb.Text,
                         Login = LoginTb.Text,
-                        Password = PasswordTb.Text,
+                        Password = PasswordSecurity.Hash(PasswordTb.Text),
                         RoleId = (int?)RoleCmb.SelectedValue,
                         PassportData = PassportDataTb.Text
                     };
@@ -66,7 +67,8 @@ namespace LizonkaPechyorskayaPromotion.View.Windows
                 {
                     _currentUser.FullName = FullNameTb.Text;
                     _currentUser.Login = LoginTb.Text;
-                    _currentUser.Password = PasswordTb.Text;
+                    if (!string.IsNullOrEmpty(PasswordTb.Text))
+                        _currentUser.Password = PasswordSecurity.Hash(PasswordTb.Text);
                     _currentUser.RoleId = (int?)RoleCmb.SelectedValue;
                     _currentUser.PassportData = PassportDataTb.Text;
                 }
